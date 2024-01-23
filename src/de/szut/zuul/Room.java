@@ -16,11 +16,18 @@ package de.szut.zuul;
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+
+    //ideas
+    // private boolean hidden;
+    // private boolean lock;
+    // public boolean checkPermission(){check if the player is allowed or not. Item/Level}
+    // public boolean unLock(SomeItemClass item){}
+    // public boolean appear(SomeItemClass item){}
 
     /**
      * Create a room described "description". Initially, it has
@@ -37,7 +44,7 @@ public class Room
      * Define the exits of this room.  Every direction either leads
      * to another room or is null (no exit there).
      * @param north The north exit.
-     * @param east The east east.
+     * @param east The east exit.
      * @param south The south exit.
      * @param west The west exit.
      */
@@ -63,6 +70,52 @@ public class Room
     public String getDescription()
     {
         return description;
+    }
+
+    /**
+     *
+     * @param direction
+     * @return room or null
+     * give the room of the given direction
+     * give null when the direction or the room do not exist
+     */
+    public Room getExit(String direction){
+        if(direction.equalsIgnoreCase("north") && northExit!=null) {
+            return northExit;
+        }
+        else if(direction.equalsIgnoreCase("east") && eastExit!=null) {
+            return eastExit;
+        }
+        else if(direction.equalsIgnoreCase("south") && southExit!=null)  {
+            return southExit;
+        }
+        else if(direction.equalsIgnoreCase("west") && westExit!=null)  {
+            return westExit;
+        }
+        else return null;
+    }
+
+    public String exitsToString(){
+        StringBuilder bilder = new StringBuilder("");
+        //String exits = "";
+
+        if(northExit != null) {
+            //exits+="north ";
+            bilder.append("north ");
+        }
+        if(eastExit != null) {
+            //exits+="east ";
+            bilder.append("east ");
+        }
+        if(southExit != null) {
+            //exits+="south ";
+            bilder.append("south ");
+        }
+        if(westExit != null) {
+            //exits+="west ";
+            bilder.append("west ");
+        }
+        return bilder.toString();//exits;
     }
 
 }

@@ -152,8 +152,9 @@ public class Game
         }
 
         String direction = command.getSecondWord();
-
         // Try to leave current room.
+        Room nextRoom = currentRoom.getExit(direction);
+        /**
         Room nextRoom = null;
         if(direction.equals("north")) {
             nextRoom = currentRoom.northExit;
@@ -167,6 +168,8 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        **/
+
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -178,14 +181,12 @@ public class Game
         }
     }
 
-    /**
-     * This method acts like "toString()",
-     * and it should belong to "Room" not "Game"
-     */
     private void printRoomInformation()
     {
         System.out.println("You are " + currentRoom.getDescription());
         System.out.print("Exits: ");
+        System.out.println(currentRoom.exitsToString());
+        /**
         if(currentRoom.northExit != null) {
             System.out.print("north ");
         }
@@ -198,8 +199,7 @@ public class Game
         if(currentRoom.westExit != null) {
             System.out.print("west ");
         }
-        System.out.println();
-
+         **/
     }
 
     /** 
