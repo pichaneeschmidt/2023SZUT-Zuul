@@ -36,10 +36,11 @@ public class Game
      */
     private void createRooms()
     {
-        Room marketsquare, templePyramid, tavern, sacrificialSite, hut, jungle, secretPassage, cave, beach;
+        Room marketSquare, templePyramid, tavern, sacrificialSite, hut, jungle, secretPassage, cave, beach;
+        Room magicChamber, cellar;
       
         // create the rooms
-        marketsquare = new Room("on the market square");
+        marketSquare = new Room("on the market square");
         templePyramid = new Room("in a temple pyramid");
         tavern = new Room("in the tavern at the market square");
         sacrificialSite = new Room("at a sacrificial site");
@@ -48,19 +49,38 @@ public class Game
         secretPassage = new Room("in a secret passage");
         cave = new Room("in a cave");
         beach = new Room("on the beach");
+        magicChamber = new Room("in a room surrounded by a mysterious aura");
+        cellar = new Room("in a cellar. This place reeks of dust and ash");
 
         // initialise room exits
-        marketsquare.setExits(tavern, templePyramid, null, sacrificialSite);
-        templePyramid.setExits(hut, null, null, marketsquare);
-        tavern.setExits(null, hut, marketsquare, null);
-        sacrificialSite.setExits(null, marketsquare, null , null);
-        hut.setExits(null, jungle, templePyramid, tavern);
-        jungle.setExits(null, null, null, hut);
-        secretPassage.setExits(null, null, null, cave);
-        cave.setExits(null, secretPassage, beach, null);
-        beach.setExits(cave, null, null, null);
-
-        currentRoom = marketsquare;  // start game on marketsquare
+        marketSquare.setExit(Direction.NORTH, tavern);
+        marketSquare.setExit(Direction.EAST, templePyramid);
+        marketSquare.setExit(Direction.WEST, sacrificialSite);
+        templePyramid.setExit(Direction.NORTH,hut);
+        templePyramid.setExit(Direction.WEST,marketSquare);
+        templePyramid.setExit(Direction.UP,magicChamber);
+        templePyramid.setExit(Direction.DOWN,cellar);
+        tavern.setExit(Direction.EAST,hut);
+        tavern.setExit(Direction.SOUTH,marketSquare);
+        sacrificialSite.setExit(Direction.EAST,marketSquare);
+        sacrificialSite.setExit(Direction.DOWN,cave);
+        hut.setExit(Direction.EAST,jungle);
+        hut.setExit(Direction.SOUTH,templePyramid);
+        hut.setExit(Direction.WEST,tavern);
+        jungle.setExit(Direction.WEST,hut);
+        secretPassage.setExit(Direction.EAST,cellar);
+        secretPassage.setExit(Direction.WEST,cave);
+        cave.setExit(Direction.UP,sacrificialSite);
+        cave.setExit(Direction.EAST,secretPassage);
+        cave.setExit(Direction.SOUTH,beach);
+        beach.setExit(Direction.NORTH,cave);
+        magicChamber.setExit(Direction.DOWN,templePyramid);
+        cellar.setExit(Direction.UP,templePyramid);
+        cellar.setExit(Direction.WEST,secretPassage);
+        //idea setNormalExit() set two way exit for normal cases
+        //this will reduce typos and miss match exits
+        //sometime oneway door is also need
+        currentRoom = marketSquare;  // start game on marketSquare
     }
 
     /**
@@ -154,22 +174,6 @@ public class Game
         String direction = command.getSecondWord();
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
-        /**
-        Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = currentRoom.northExit;
-        }
-        if(direction.equals("east")) {
-            nextRoom = currentRoom.eastExit;
-        }
-        if(direction.equals("south")) {
-            nextRoom = currentRoom.southExit;
-        }
-        if(direction.equals("west")) {
-            nextRoom = currentRoom.westExit;
-        }
-        **/
-
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -186,20 +190,6 @@ public class Game
         System.out.println("You are " + currentRoom.getDescription());
         System.out.print("Exits: ");
         System.out.println(currentRoom.exitsToString());
-        /**
-        if(currentRoom.northExit != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.eastExit != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.southExit != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.westExit != null) {
-            System.out.print("west ");
-        }
-         **/
     }
 
     /** 

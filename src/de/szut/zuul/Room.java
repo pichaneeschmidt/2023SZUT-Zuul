@@ -1,5 +1,8 @@
 package de.szut.zuul;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Class Room - a room in an adventure game.
  *
@@ -17,12 +20,9 @@ package de.szut.zuul;
 public class Room 
 {
     private String description;
-    private Room northExit;
-    private Room southExit;
-    private Room eastExit;
-    private Room westExit;
+    private Map<String, Room> rooms;
 
-    //ideas
+    // Future works
     // private boolean hidden;
     // private boolean lock;
     // public boolean checkPermission(){check if the player is allowed or not. Item/Level}
@@ -32,36 +32,23 @@ public class Room
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
-     * "an open court yard".
+     * "an open courtyard".
      * @param description The room's description.
      */
     public Room(String description) 
     {
         this.description = description;
+        rooms = new HashMap<>();
     }
 
-    /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east exit.
-     * @param south The south exit.
-     * @param west The west exit.
-     */
-    public void setExits(Room north, Room east, Room south, Room west) 
+    private void setExit(String direction, Room room)
     {
-        if(north != null) {
-            northExit = north;
-        }
-        if(east != null) {
-            eastExit = east;
-        }
-        if(south != null) {
-            southExit = south;
-        }
-        if(west != null) {
-            westExit = west;
-        }
+        rooms.putIfAbsent(direction,room);
+    }
+
+    public void setExit(Direction direction, Room room)
+    {
+        setExit(direction.toString(), room);
     }
 
     /**
@@ -80,41 +67,13 @@ public class Room
      * give null when the direction or the room do not exist
      */
     public Room getExit(String direction){
-        if(direction.equalsIgnoreCase("north") && northExit!=null) {
-            return northExit;
-        }
-        else if(direction.equalsIgnoreCase("east") && eastExit!=null) {
-            return eastExit;
-        }
-        else if(direction.equalsIgnoreCase("south") && southExit!=null)  {
-            return southExit;
-        }
-        else if(direction.equalsIgnoreCase("west") && westExit!=null)  {
-            return westExit;
-        }
-        else return null;
+        return rooms.get(direction.toUpperCase()); //return null when the key does not exist
     }
 
     public String exitsToString(){
-        StringBuilder bilder = new StringBuilder("");
-        //String exits = "";
-
-        if(northExit != null) {
-            //exits+="north ";
-            bilder.append("north ");
-        }
-        if(eastExit != null) {
-            //exits+="east ";
-            bilder.append("east ");
-        }
-        if(southExit != null) {
-            //exits+="south ";
-            bilder.append("south ");
-        }
-        if(westExit != null) {
-            //exits+="west ";
-            bilder.append("west ");
-        }
+        StringBuilder bilder = new StringBuilder();
+        //for(String direction: rooms.keySet()){}
+        bilder.append(rooms.keySet());
         return bilder.toString();//exits;
     }
 
