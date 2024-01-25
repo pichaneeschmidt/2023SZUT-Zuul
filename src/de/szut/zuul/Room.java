@@ -74,7 +74,17 @@ public class Room
         StringBuilder bilder = new StringBuilder();
         //for(String direction: rooms.keySet()){}
         bilder.append(rooms.keySet());
-        return bilder.toString();//exits;
+        return bilder.toString().substring(1,bilder.length()-1);//exits;
+        //RegEx in Java
+    }
+
+    public String getLongDescription()
+    {
+        StringBuilder bilder = new StringBuilder();
+        bilder.append("You are "+description);
+        bilder.append(System.getProperty("line.separator"));
+        bilder.append("Exits: "+exitsToString());
+        return bilder.toString();
     }
 
 }
