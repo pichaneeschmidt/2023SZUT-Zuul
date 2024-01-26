@@ -190,6 +190,7 @@ public class Game
         System.out.println("You are " + currentRoom.getDescription());
         System.out.print("Exits: ");
         System.out.println(currentRoom.exitsToString());
+        System.out.println(currentRoom.getLongDescription());
     }
 
     /** 
