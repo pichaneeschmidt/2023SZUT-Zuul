@@ -20,14 +20,17 @@ import java.util.Map;
 public class Room 
 {
     private String description;
-    private Map<String, Room> rooms;
-
-    // Future works
+    private Map<String, Room> neighbors;
+    private Map<String, Item> items;
+    //TODO (ideas)
     // private boolean hidden;
     // private boolean lock;
     // public boolean checkPermission(){check if the player is allowed or not. Item/Level}
     // public boolean unLock(SomeItemClass item){}
     // public boolean appear(SomeItemClass item){}
+    // idea setNormalExit() set two way exit for normal cases
+    // this will reduce typos and miss match exits
+    // leave setExit be because sometime oneway door is also needed
 
     /**
      * Create a room described "description". Initially, it has
@@ -38,17 +41,22 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        rooms = new HashMap<>();
-    }
-
-    private void setExit(String direction, Room room)
-    {
-        rooms.putIfAbsent(direction,room);
+        neighbors = new HashMap<>();
+        items = new HashMap<>();
     }
 
     public void setExit(Direction direction, Room room)
     {
         setExit(direction.toString(), room);
+    }
+    private void setExit(String direction, Room room)
+    {
+        neighbors.putIfAbsent(direction,room);
+    }
+
+    public void putItem(Item newItem)
+    {
+        items.putIfAbsent(newItem.getName(),newItem);
     }
 
     /**
@@ -67,13 +75,13 @@ public class Room
      * give null when the direction or the room do not exist
      */
     public Room getExit(String direction){
-        return rooms.get(direction.toUpperCase()); //return null when the key does not exist
+        return neighbors.get(direction.toUpperCase()); //return null when the key does not exist
     }
 
     public String exitsToString(){
         StringBuilder bilder = new StringBuilder();
         //for(String direction: rooms.keySet()){}
-        bilder.append(rooms.keySet());
+        bilder.append(neighbors.keySet());
         return bilder.toString().substring(1,bilder.length()-1);//exits;
         //RegEx in Java
     }
@@ -84,6 +92,14 @@ public class Room
         bilder.append("You are "+description);
         bilder.append(System.getProperty("line.separator"));
         bilder.append("Exits: "+exitsToString());
+        bilder.append(System.getProperty("line.separator"));
+        bilder.append("Items in this room:");
+        for (String name: items.keySet())
+        {
+            bilder.append(System.getProperty("line.separator"));
+            bilder.append("-"+items.get(name).toString());
+        }
+
         return bilder.toString();
     }
 

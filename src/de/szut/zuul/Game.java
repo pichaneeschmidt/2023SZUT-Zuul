@@ -77,10 +77,39 @@ public class Game
         magicChamber.setExit(Direction.DOWN,templePyramid);
         cellar.setExit(Direction.UP,templePyramid);
         cellar.setExit(Direction.WEST,secretPassage);
-        //idea setNormalExit() set two way exit for normal cases
-        //this will reduce typos and miss match exits
-        //sometime oneway door is also need
+
         currentRoom = marketSquare;  // start game on marketSquare
+
+        // crate items
+        // marketSquare
+        Item bow =new Item("Bogen", "ein Bogen aus Holz", 0.5);
+        // cave
+        Item treasure = new Item("Schatz", "eine kleine Schatztruhe mit Münzen", 7.5);
+        // magicChamber
+        Item arrows = new Item("Pfeile", "ein Köcher mit diversen Pfeilen", 1);
+        // jungle
+        Item plant = new Item("Pflanze", "eine Heilpflanze", 0.5);
+        Item cocoa = new Item("Kakao", "ein kleiner Kakaobaum", 5);
+        // sacrificialSite
+        Item knife = new Item("Messer", "ein sehr scharfes, großes Messer", 1);
+        // hut
+        Item spear = new Item("Speer", "ein Speer mit dazugehöriger Schleuder", 5.0);
+        // tavern
+        Item food = new Item("Nahrung", "ein Teller mit deftigem Fleisch und Maisbrei", 0.5);
+        // cellar
+        Item jewery = new Item("Schmuck", "ein sehr hübscher Kopfschmuck", 1);
+        // templePyramid, secretPassage, beach, magicChamber;
+
+        //add the items into the rooms
+        marketSquare.putItem(bow);
+        cave.putItem(treasure);
+        magicChamber.putItem(arrows);
+        jungle.putItem(plant);
+        jungle.putItem(cocoa);
+        sacrificialSite.putItem(knife);
+        hut.putItem(spear);
+        tavern.putItem(food);
+        cellar.putItem(jewery);
     }
 
     /**
