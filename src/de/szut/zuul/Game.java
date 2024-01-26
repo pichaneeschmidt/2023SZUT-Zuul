@@ -20,15 +20,17 @@ package de.szut.zuul;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
+    //private Room currentRoom;
+    private Player player;
         
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
-        createRooms();
+        player = new Player();
         parser = new Parser();
+        createRooms();
     }
 
     /**
@@ -78,7 +80,8 @@ public class Game
         cellar.setExit(Direction.UP,templePyramid);
         cellar.setExit(Direction.WEST,secretPassage);
 
-        currentRoom = marketSquare;  // start game on marketSquare
+        //currentRoom = marketSquare;  // start game on marketSquare
+        player.goTo(marketSquare);
 
         // crate items
         // marketSquare
@@ -205,26 +208,28 @@ public class Game
 
         String direction = command.getSecondWord();
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        //Room nextRoom = currentRoom.getExit(direction);
+        Room nextRoom =player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
             //if nextRoom!=null
-            currentRoom = nextRoom;
+            //currentRoom = nextRoom;
+            player.goTo(nextRoom);
             printRoomInformation();
         }
     }
 
     private void printRoomInformation()
     {
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
     private void look()
     {
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
     /** 

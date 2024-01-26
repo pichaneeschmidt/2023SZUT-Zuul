@@ -99,7 +99,6 @@ public class Room
             bilder.append(System.getProperty("line.separator"));
             bilder.append("-"+items.get(name).toString());
         }
-
         return bilder.toString();
     }
 
