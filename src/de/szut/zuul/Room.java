@@ -104,7 +104,17 @@ public class Room
 
     public Item removeItem(String name)
     {
+        if(!isItemExist(name))
+        {
+            System.out.println("There is no "+name+" here");
+            return null;
+        }
         return items.remove(name);
+    }
+
+    public boolean isItemExist(String itemName)
+    {
+        return items.containsKey(itemName);
     }
 
 }

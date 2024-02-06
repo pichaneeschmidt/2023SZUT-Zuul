@@ -101,7 +101,11 @@ public class Game
         Item food = new Item("Nahrung", "ein Teller mit deftigem Fleisch und Maisbrei", 0.5);
         // cellar
         Item jewery = new Item("Schmuck", "ein sehr hübscher Kopfschmuck", 1);
-        // templePyramid, secretPassage, beach, magicChamber;
+        // templePyramid, beach, magicChamber;
+        //SecretPassage
+        ConsumableItem blueMuffin = new ConsumableItem("BlauMuffin", "A fancy blue muffin, probably made by a skillful patissier. But why is it here?",0.3, 10,-5,true);
+        ConsumableItem commonMuffin = new ConsumableItem("commonMuffin", "Just a muffin, looks a bit too dry but edible.",0.3, 0.0,0.5,false);
+
 
         //add the items into the rooms
         marketSquare.putItem(bow);
@@ -112,7 +116,9 @@ public class Game
         sacrificialSite.putItem(knife);
         hut.putItem(spear);
         tavern.putItem(food);
+        tavern.putItem(commonMuffin);
         cellar.putItem(jewery);
+        secretPassage.putItem(blueMuffin);
     }
 
     /**
@@ -174,11 +180,14 @@ public class Game
         else if (commandWord.equals("look")) {
             look();
         }
-        else if (commandWord.equals("")) {
+        else if (commandWord.equals("take")) {
             takeItem(command);
         }
-        else if (commandWord.equals("")) {
+        else if (commandWord.equals("drop")) {
             dropItem(command);
+        }
+        else if (commandWord.equals("eat")) {
+            consumeItem(command);
         }
 
         return wantToQuit;
@@ -260,10 +269,15 @@ public class Game
             System.out.println("take what?");
             return;
         }
-        //Gibt es den Gegenstand im Raum nicht oder ist er für den Spieler zu schwer, werden entsprechende Fehlermeldungen ausgeworfen.
 
-        // String showStatus() //player
-
+        Item item = player.getCurrentRoom().removeItem(command.getSecondWord());
+        if(item==null)
+        {
+            System.out.println("Taking "+command.getSecondWord()+" failed");
+            return;
+        }
+        player.takeItem(item);
+        System.out.println(player.showStatus());
     }
 
     private void dropItem(Command command)
@@ -272,8 +286,36 @@ public class Game
             System.out.println("drop what?");
             return;
         }
-        return;
-       // String showStatus() //player
+        Item item = player.dropItem(command.getSecondWord());
+        if(item==null)
+        {
+            System.out.println("Dropping "+command.getSecondWord()+" failed");
+            return;
+        }
+        player.getCurrentRoom().putItem(item);
+        System.out.println(player.showStatus());
+    }
+
+    private void consumeItem(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            System.out.println("eat what?");
+            return;
+        }
+        Item item = player.dropItem(command.getSecondWord());
+        if(item==null)
+        {
+            System.out.println(command.getSecondWord()+" not found");
+            return;
+        }
+        if(!(item instanceof ConsumableItem)) { //or exception
+            player.takeItem(item);
+        }
+        ConsumableItem cItem = (ConsumableItem) item;
+        System.out.println(cItem.toString());
+        if(cItem.isHidden())System.out.println(cItem.showHiddenAtrib());
+
+        player.alterStatus(cItem.getHp());
     }
 
 

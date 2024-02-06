@@ -17,7 +17,7 @@ public class Item {
     public String toString()
     {
         StringBuilder itemInfo = new StringBuilder();
-        itemInfo.append(name+", "+description+", "+weight+"kg");
+        itemInfo.append(name+", "+description+", "+weight+" kg");
         return itemInfo.toString();
     }
     public String getName() {

@@ -6,9 +6,7 @@ import java.util.Optional;
 public class Player {
     private Room currentRoom;
     private double loadCapacity;
-
     LinkedList<Item> items;
-
     public Player ()
     {
         items = new LinkedList<>();
@@ -30,7 +28,7 @@ public class Player {
 
     public boolean takeItem(Item item)
     {
-        if(isTakePossible(item))
+        if(!isTakePossible(item))
         {
             return false;
         }
@@ -57,14 +55,32 @@ public class Player {
 
     public Item dropItem(String name)
     {
-        Optional<Item> optionalItem = items.stream().filter(i -> i.getName().equals(name)).findFirst();
+        Optional<Item> optionalItem = lookUpItems(name);//items.stream().filter(i -> i.getName().equals(name)).findFirst();
         if (optionalItem.isEmpty()) {
+            System.out.println("The player does not have "+name );
             return null;
         }
         Item item = optionalItem.get();
         items.remove(item);
         return item;
     }
+
+    private Optional<Item> lookUpItems(String name)
+    {
+        Optional<Item> optionalItem = items.stream().filter(i -> i.getName().equals(name)).findFirst();
+        return optionalItem;
+    }
+
+
+    public void setLoadCapacity(double loadCapacity) {
+        this.loadCapacity = loadCapacity;
+    }
+
+    public void alterStatus(double addition)
+    {
+        this.loadCapacity+=addition;
+    }
+
 
     public String showStatus()
     {
@@ -83,10 +99,8 @@ public class Player {
             sum+=i.getWeight();
         }
         bilder.append("Carrying: "+sum +" kg");
+        bilder.append("Remaining: "+(loadCapacity-sum)+" kg");
         return bilder.toString();
     }
-
-
-
 
 }
