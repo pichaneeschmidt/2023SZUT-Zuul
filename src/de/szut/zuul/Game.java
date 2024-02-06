@@ -174,6 +174,12 @@ public class Game
         else if (commandWord.equals("look")) {
             look();
         }
+        else if (commandWord.equals("")) {
+            takeItem(command);
+        }
+        else if (commandWord.equals("")) {
+            dropItem(command);
+        }
 
         return wantToQuit;
     }
@@ -247,6 +253,29 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
+
+    private void takeItem(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            System.out.println("take what?");
+            return;
+        }
+        //Gibt es den Gegenstand im Raum nicht oder ist er für den Spieler zu schwer, werden entsprechende Fehlermeldungen ausgeworfen.
+
+        // String showStatus() //player
+
+    }
+
+    private void dropItem(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            System.out.println("drop what?");
+            return;
+        }
+        return;
+       // String showStatus() //player
+    }
+
 
 
 }

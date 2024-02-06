@@ -102,4 +102,9 @@ public class Room
         return bilder.toString();
     }
 
+    public Item removeItem(String name)
+    {
+        return items.remove(name);
+    }
+
 }
