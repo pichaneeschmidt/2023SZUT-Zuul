@@ -1,4 +1,6 @@
-package de.szut.zuul;
+package de.szut.zuul.gamecontrol;
+
+import de.szut.zuul.gamecontrol.Game;
 
 public class ZuulUI {
 

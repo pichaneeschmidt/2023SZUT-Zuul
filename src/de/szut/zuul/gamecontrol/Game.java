@@ -1,4 +1,8 @@
-package de.szut.zuul;
+package de.szut.zuul.gamecontrol;
+
+import de.szut.zuul.exceptions.ItemNotFoundException;
+import de.szut.zuul.exceptions.ItemTooHeavyException;
+import de.szut.zuul.model.*;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 

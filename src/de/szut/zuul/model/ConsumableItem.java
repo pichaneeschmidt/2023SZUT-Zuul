@@ -1,6 +1,6 @@
-package de.szut.zuul;
+package de.szut.zuul.model;
 
-public class ConsumableItem extends Item{
+public class ConsumableItem extends Item {
 
     private double mp;
     private double hp;

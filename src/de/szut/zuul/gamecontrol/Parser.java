@@ -1,4 +1,7 @@
-package de.szut.zuul;
+package de.szut.zuul.gamecontrol;
+
+import de.szut.zuul.gamecontrol.Command;
+import de.szut.zuul.gamecontrol.CommandWords;
 
 import java.util.Scanner;
 
@@ -35,7 +38,7 @@ public class Parser
     /**
      * @return The next command from the user.
      */
-    public Command getCommand() 
+    public Command getCommand()
     {
         String inputLine;   // will hold the full input line
         String word1 = null;

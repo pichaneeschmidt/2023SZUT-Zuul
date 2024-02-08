@@ -1,4 +1,4 @@
-package de.szut.zuul;
+package de.szut.zuul.exceptions;
 
 public class ItemTooHeavyException extends Exception{
     public ItemTooHeavyException(){}

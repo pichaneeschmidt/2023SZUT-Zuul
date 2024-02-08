@@ -1,4 +1,7 @@
-package de.szut.zuul;
+package de.szut.zuul.model;
+
+import de.szut.zuul.exceptions.ItemNotFoundException;
+import de.szut.zuul.exceptions.ItemTooHeavyException;
 
 import java.util.LinkedList;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package de.szut.zuul;
+package de.szut.zuul.exceptions;
 
 public class ItemNotFoundException extends Exception{
     public ItemNotFoundException(){}
