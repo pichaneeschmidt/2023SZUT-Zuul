@@ -284,6 +284,7 @@ public class Game
             try{player.takeItem(item);}
             catch (ItemTooHeavyException itemTooHeavyException)
             {
+                System.out.println(itemTooHeavyException.getMessage());
                 player.getCurrentRoom().putItem(item);
             }
 
