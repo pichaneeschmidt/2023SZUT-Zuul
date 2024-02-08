@@ -26,15 +26,11 @@ public class Player {
         currentRoom = newRoom;
     }
 
-    public boolean takeItem(Item item)
+    public void takeItem(Item item)
+            throws ItemTooHeavyException
     {
-        if(!isTakePossible(item))
-        {
-            return false;
-        }
-
+        if(!isTakePossible(item))throw new ItemTooHeavyException();
         items.add(item);
-        return true;
     }
 
     private double calculateWeight()
@@ -49,16 +45,17 @@ public class Player {
 
     private boolean isTakePossible(Item item)
     {
-        if(calculateWeight()+item.getWeight()>loadCapacity) return false;
-        return true;
+        return calculateWeight()+item.getWeight()<=loadCapacity;
     }
 
     public Item dropItem(String name)
+            throws ItemNotFoundException
     {
         Optional<Item> optionalItem = lookUpItems(name);//items.stream().filter(i -> i.getName().equals(name)).findFirst();
         if (optionalItem.isEmpty()) {
-            System.out.println("The player does not have "+name );
-            return null;
+            throw new ItemNotFoundException("You don‘t own this item!");
+            /*System.out.println("The player does not have "+name );
+            return null;*/
         }
         Item item = optionalItem.get();
         items.remove(item);
@@ -68,6 +65,7 @@ public class Player {
     private Optional<Item> lookUpItems(String name)
     {
         Optional<Item> optionalItem = items.stream().filter(i -> i.getName().equals(name)).findFirst();
+        //Optional<Item> optionalItem = items.stream().filter(i -> i.getName().equals(name)).findFirst().orElse(null); //then no need Optional
         return optionalItem;
     }
 

@@ -103,11 +103,13 @@ public class Room
     }
 
     public Item removeItem(String name)
+            throws ItemNotFoundException
     {
         if(!isItemExist(name))
         {
-            System.out.println("There is no "+name+" here");
-            return null;
+            throw new ItemNotFoundException("This item does not exist!");
+            /*System.out.println("There is no "+name+" here");
+            return null;*/
         }
         return items.remove(name);
     }

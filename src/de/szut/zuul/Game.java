@@ -270,14 +270,28 @@ public class Game
             return;
         }
 
-        Item item = player.getCurrentRoom().removeItem(command.getSecondWord());
-        if(item==null)
-        {
-            System.out.println("Taking "+command.getSecondWord()+" failed");
-            return;
+        try{
+            Item item = player.getCurrentRoom().removeItem(command.getSecondWord());
+            /*if(item==null)
+            {
+                System.out.println("Taking "+command.getSecondWord()+" failed");
+                return;
+            }*/
+            try{player.takeItem(item);}
+            catch (ItemTooHeavyException itemTooHeavyException)
+            {
+                player.getCurrentRoom().putItem(item);
+            }
+
         }
-        player.takeItem(item);
-        System.out.println(player.showStatus());
+        catch (ItemNotFoundException itemNotFoundException)
+        {
+            System.out.println(itemNotFoundException.getMessage());
+        }
+        finally {
+            System.out.println(player.showStatus());
+        }
+
     }
 
     private void dropItem(Command command)
@@ -286,13 +300,19 @@ public class Game
             System.out.println("drop what?");
             return;
         }
-        Item item = player.dropItem(command.getSecondWord());
-        if(item==null)
-        {
-            System.out.println("Dropping "+command.getSecondWord()+" failed");
-            return;
+        try {
+            Item item = player.dropItem(command.getSecondWord());
+            /*if(item==null)
+            {
+                System.out.println("Dropping "+command.getSecondWord()+" failed");
+                return;
+            }*/
+            player.getCurrentRoom().putItem(item);
         }
-        player.getCurrentRoom().putItem(item);
+        catch (ItemNotFoundException itemNotFoundException)
+        {
+            System.out.println(itemNotFoundException.getMessage());
+        }
         System.out.println(player.showStatus());
     }
 
@@ -302,22 +322,44 @@ public class Game
             System.out.println("eat what?");
             return;
         }
-        Item item = player.dropItem(command.getSecondWord());
-        if(item==null)
+        try {
+            Item item = player.dropItem(command.getSecondWord());
+
+            try{
+            /*if(item==null)
+            {
+                System.out.println(command.getSecondWord()+" not found");
+                return;
+            }
+            if(!(item instanceof ConsumableItem)) { //or using an exception
+
+                return;
+            }*/
+                ConsumableItem cItem = (ConsumableItem) item;
+                System.out.println(cItem.toString());
+                if(cItem.isHidden())System.out.println(cItem.showHiddenAtrib());
+                player.alterStatus(cItem.getHp());
+
+
+            }
+            catch(Exception e){
+                //if(item!=null){
+                    System.out.println("Can not eat "+item.getName());
+                    try {
+                        player.takeItem(item); //cant eat, return the item to the bag
+                    }
+                    catch (ItemTooHeavyException itemTooHeavyException){}
+                //}
+                //else System.out.println(command.getSecondWord()+" not found");
+            }
+        }
+        catch (ItemNotFoundException itemNotFoundException){
+            System.out.println(itemNotFoundException.getMessage());
+        }
+        finally
         {
-            System.out.println(command.getSecondWord()+" not found");
-            return;
+            System.out.println(player.showStatus());
         }
-        if(!(item instanceof ConsumableItem)) { //or exception
-            player.takeItem(item);
-        }
-        ConsumableItem cItem = (ConsumableItem) item;
-        System.out.println(cItem.toString());
-        if(cItem.isHidden())System.out.println(cItem.showHiddenAtrib());
-
-        player.alterStatus(cItem.getHp());
     }
-
-
 
 }
