@@ -9,11 +9,16 @@ import java.util.Optional;
 public class Player {
     private Room currentRoom;
     private double loadCapacity;
-    LinkedList<Item> items;
+    private LinkedList<Item> items;
+    private State actualState;
+
     public Player ()
     {
         items = new LinkedList<>();
         loadCapacity = 10.0;
+        //setActualState(new Healthy(this));
+
+        setActualState(Injured.getInstance(this));
     }
 
     public Player(double capacity, Room room) {
@@ -72,7 +77,6 @@ public class Player {
         return optionalItem;
     }
 
-
     public void setLoadCapacity(double loadCapacity) {
         this.loadCapacity = loadCapacity;
     }
@@ -82,6 +86,24 @@ public class Player {
         this.loadCapacity+=addition;
     }
 
+    public State getActualState() {
+        return actualState;
+    }
+    public void setActualState(State actualState) {
+        this.actualState = actualState;
+    }
+    public void heal()
+    {
+        actualState.heal();
+    }
+    public void injure()
+    {
+        actualState.injure();
+    }
+    public void injureHeavily()
+    {
+        actualState.injureHeavily();
+    }
 
     public String showStatus()
     {
@@ -101,6 +123,8 @@ public class Player {
         }
         bilder.append("Carrying: "+sum +" kg");
         bilder.append("Remaining: "+(loadCapacity-sum)+" kg");
+        bilder.append(System.getProperty("line.separator"));
+        bilder.append("Status: "+actualState.toString());
         return bilder.toString();
     }
 

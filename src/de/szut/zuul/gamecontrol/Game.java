@@ -26,6 +26,7 @@ public class Game
     private Parser parser;
     //private Room currentRoom;
     private Player player;
+
         
     /**
      * Create the game and initialise its internal map.
@@ -102,14 +103,18 @@ public class Game
         // hut
         Item spear = new Item("Speer", "ein Speer mit dazugehöriger Schleuder", 5.0);
         // tavern
-        Item food = new Item("Nahrung", "ein Teller mit deftigem Fleisch und Maisbrei", 0.5);
+        ConsumableItem  food = new ConsumableItem ("Nahrung", "ein Teller mit deftigem Fleisch und Maisbrei", 0.5,0,2,false);
         // cellar
         Item jewery = new Item("Schmuck", "ein sehr hübscher Kopfschmuck", 1);
-        // templePyramid, beach, magicChamber;
+        // templePyramid, beach;
         //SecretPassage
         ConsumableItem blueMuffin = new ConsumableItem("BlauMuffin", "A fancy blue muffin, probably made by a skillful patissier. But why is it here?",0.3, 10,-5,true);
         ConsumableItem commonMuffin = new ConsumableItem("commonMuffin", "Just a muffin, looks a bit too dry but edible.",0.3, 0.0,0.5,false);
-
+        //magicChamber
+        ConsumableItem clearWater = new ConsumableItem("Water", "Clean crystal clear water, probably safe for drinking", 1,0.0,0.1,false );
+        ConsumableItem sealedFlask = new ConsumableItem("sealedFlask","Sealed tightly, may be dangerous...or not",0.1,100,-100,true);
+        ConsumableItem oldFlask = new ConsumableItem("dustyFlask", "Some unidentified thick liquid, byproduct from an ancient experiment",2,0,-4,false );
+        ConsumableItem revive = new ConsumableItem("revive", "Extremely rare", 0.1,0,10000,false );
 
         //add the items into the rooms
         marketSquare.putItem(bow);
@@ -123,6 +128,12 @@ public class Game
         tavern.putItem(commonMuffin);
         cellar.putItem(jewery);
         secretPassage.putItem(blueMuffin);
+
+        //for "Status"testing
+        magicChamber.putItem(clearWater);
+        magicChamber.putItem(sealedFlask);
+        magicChamber.putItem(oldFlask);
+        magicChamber.putItem(revive);
     }
 
     /**
@@ -344,6 +355,11 @@ public class Game
                 System.out.println(cItem.toString());
                 if(cItem.isHidden())System.out.println(cItem.showHiddenAtrib());
                 player.alterStatus(cItem.getHp());
+
+                double itemAttrib = cItem.getHp();
+                if(itemAttrib>0) player.heal();
+                else if (itemAttrib<=-10)player.injureHeavily();
+                else if (itemAttrib<0) player.injure();
 
 
             }
