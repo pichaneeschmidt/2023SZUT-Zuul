@@ -136,6 +136,11 @@ public class Game
         magicChamber.putItem(revive);
     }
 
+    private void setCommand()
+    {
+
+    }
+
     /**
      *  Main play routine.  Loops until end of play.
      */

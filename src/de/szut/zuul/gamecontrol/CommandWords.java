@@ -1,4 +1,6 @@
 package de.szut.zuul.gamecontrol;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -19,12 +21,14 @@ public class CommandWords
             "take","drop","eat",
             "eatMuffin"
     };
+    public Map<String, ICommand> commands;
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
+        this.commands = new HashMap<>();
         // nothing to do at the moment...
     }
 

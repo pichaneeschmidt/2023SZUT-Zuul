@@ -35,6 +35,11 @@ public class Parser
         reader = new Scanner(System.in);
     }
 
+    /*public void addCommand(ICommand iCommand)
+    {
+        commands.commands.put()
+    }*/
+
     /**
      * @return The next command from the user.
      */
